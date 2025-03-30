@@ -1,7 +1,6 @@
 class MainController < ApplicationController
   # layout "custom"
   def welcome
-    @name = "Christian"
-    # render layout: "custom"
+    redirect_to products_path
   end
 end

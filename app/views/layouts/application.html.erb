@@ -25,9 +25,22 @@
   </head>
 
   <body>
+    <%= render partial: "partials/messages" %>
     <%= render partial: "partials/navbar" %>
     <div class="container px-4 mx-auto">
       <%= yield %>
     </div>
   </body>
+  <script>
+    document.addEventListener("turbo:load", function() {
+      document.querySelectorAll(".message-close").forEach(button => {
+        button.addEventListener("click", function() {
+          let message = document.getElementById(`message-${this.value}`);
+          if (message) {
+            message.style.display = "none";
+          }
+        });
+      });
+    });
+  </script>
 </html>
