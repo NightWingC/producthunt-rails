@@ -32,7 +32,10 @@ gem "solid_cable"
 gem "bootsnap", require: false
 
 # Gem to change id to slug Github: https://github.com/norman/friendly_id
-gem 'friendly_id', '~> 5.5.0'
+gem "friendly_id", "~> 5.5.0"
+
+# Gem creates pagination Github: https://github.com/mislav/will_paginate
+gem "will_paginate", "~> 4.0"
 
 # Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
 gem "kamal", require: false

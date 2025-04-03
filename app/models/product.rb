@@ -23,8 +23,20 @@ class Product < ApplicationRecord
 
   validates :name, length: { minimum: 5, maximum: 200 }
 
+  has_one_attached :image, dependent: :destroy
+
   # uniqueness
   # length
   # presence
   # format - Regex
+
+  has_many :product_categories
+  has_many :categories, through: :product_categories
+
+  accepts_nested_attributes_for :categories
+
+  def category_default
+    return self.categories.first.name if self.categories.any?
+    "None category"
+  end
 end
