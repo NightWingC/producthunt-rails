@@ -23,21 +23,31 @@ class Product < ApplicationRecord
 
   validates :name, length: { minimum: 5, maximum: 200 }
 
-  has_one_attached :image, dependent: :destroy
+  has_one_attached :image, :dependent => :destroy
 
   # uniqueness
   # length
   # presence
   # format - Regex
 
-  has_many :product_categories
+  has_many :product_categories, :dependent => :destroy
   has_many :categories, through: :product_categories
-  has_many :comments, -> { order("id DESC") }
+  has_many :comments, -> { order("id DESC") }, :dependent => :destroy
+  has_many :votes, as: :votable, :dependent => :destroy
 
   accepts_nested_attributes_for :categories
+
+  scope :visible, -> { where(visible: true) }
 
   def category_default
     return self.categories.first.name if self.categories.any?
     "None category"
+  end
+
+  def self.populars
+    joins("LEFT JOIN votes ON votes.votable_id = products.id AND votes.votable_type = 'Product'")
+    .select("products.*, count(votes.id) as total")
+    .group("products.id")
+    .order("total DESC")
   end
 end
